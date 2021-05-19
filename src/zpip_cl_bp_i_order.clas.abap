@@ -1,0 +1,5 @@
+CLASS zpip_cl_bp_i_order DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zpip_i_product.
+ENDCLASS.
+
+CLASS zpip_cl_bp_i_order IMPLEMENTATION.
+ENDCLASS.
