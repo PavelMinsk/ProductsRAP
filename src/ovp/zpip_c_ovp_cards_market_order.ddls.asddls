@@ -61,7 +61,8 @@
                                                qualifier: 'OrdQuanByProdGr'
                                             }],
                             sortOrder:      [{ by: 'ProductName', direction: #ASC }]
-                          },
+                          }
+                          ,
                          --------------
                           { //Chart AVG Income by Countries
                             qualifier:      'pvAVGIncomeCountry',
@@ -90,14 +91,14 @@ define view zpip_c_ovp_cards_market_order
   as select from zpip_i_ovp_market_order
 {
   
-  @UI.facet: [//StackCard  Orders List
+  @UI.facet: [//SrackCard  Orders List
               { 
                 isSummary:        true,
                 qualifier:       'StackOrdersList',
                 label:           'StackOrdersListGenInf',
                 type:             #FIELDGROUP_REFERENCE,
                 targetQualifier: 'StackOrdersListGenInf'
-              },
+              } ,
               {
                 isSummary:        true,
                 qualifier:       'StackOrdersList',
@@ -200,7 +201,7 @@ define view zpip_c_ovp_cards_market_order
                       }]
       CalendarYear,
       
-      @UI.fieldGroup: [{ //StackCard  Orders List
+      @UI.fieldGroup: [{ //SrackCard  Orders List
                          qualifier: 'StackOrdersListGenInf',   
                          position:   40,
                          label: 'Delivery'
@@ -270,13 +271,10 @@ define view zpip_c_ovp_cards_market_order
           }
       @EndUserText.label:   'Average Gross Income Percentage'
       @Aggregation.default: #AVG
-      @Semantics.quantity.unitOfMeasure:'Percentage'
       GrossIncomPercentage,
       
-      @Semantics.unitOfMeasure:true
       Percentage,
       
-      @Semantics.quantity.unitOfMeasure:'Percentage'
       TargetGrossIncomPercentage,
       
       @UI: {
@@ -292,7 +290,6 @@ define view zpip_c_ovp_cards_market_order
                                                     toleranceRangeLowValue: 50 }
                         }
            }     
-      @Semantics.quantity.unitOfMeasure:'Percentage'
       GrossIncomPercentageList,
       
       @UI.dataPoint: { //ListCard  Orders List (KPI)
@@ -301,16 +298,14 @@ define view zpip_c_ovp_cards_market_order
                        criticalityCalculation: { improvementDirection: #MAXIMIZE,
                                                  deviationRangeLowValue: 40, 
                                                  toleranceRangeLowValue: 50 },
-                       trendCalculation:       { referenceValue:'TargetGrIncPercKPI' ,
+                       trendCalculation:       { referenceValue:'TargetGrossIncomPercentageKPI' ,
                                                  downDifference: 0,
                                                  upDifference:   0 }
                      }
       @Aggregation.default: #MAX
-      @Semantics.quantity.unitOfMeasure:'Percentage'
-      GrIncPercKPI,
+      GrossIncomPercentageKPI ,
       
-      @Semantics.quantity.unitOfMeasure:'Percentage'
-      TargetGrIncPercKPI,
+      TargetGrossIncomPercentageKPI,
       
       @UI.identification: [{ //StackCard  Orders List
                              type:       #WITH_URL, 
