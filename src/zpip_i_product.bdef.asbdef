@@ -137,20 +137,23 @@ etag master ChangeTime
 {
   mapping for zpip_d_mrkt_ordr
   {
-    ProdUuid     = prod_uuid;
-    MrktUuid     = mrkt_uuid;
-    OrderUuid    = order_uuid;
-    Orderid      = orderid;
-    Quantity     = quantity;
-    CalendarYear = calendar_year;
-    DeliveryDate = delivery_date;
-    Netamount    = netamount;
-    Grossamount  = grossamount;
-    Amountcurr   = amountcurr;
-    CreatedBy    = created_by;
-    CreationTime = creation_time;
-    ChangedBy    = changed_by;
-    ChangeTime   = change_time;
+    ProdUuid             = prod_uuid;
+    MrktUuid             = mrkt_uuid;
+    OrderUuid            = order_uuid;
+    Orderid              = orderid;
+    Quantity             = quantity;
+    CalendarYear         = calendar_year;
+    DeliveryDate         = delivery_date;
+    Netamount            = netamount;
+    Grossamount          = grossamount;
+    Amountcurr           = amountcurr;
+    BusinessPartner      = busspartner;
+    BusinessPartnerName  = busspartnername;
+    BusinessPartnerGroup = busspartnergroup;
+    CreatedBy            = created_by;
+    CreationTime         = creation_time;
+    ChangedBy            = changed_by;
+    ChangeTime           = change_time;
   }
 
   field ( numbering : managed, readonly ) OrderUuid;

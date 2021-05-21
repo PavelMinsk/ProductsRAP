@@ -55,10 +55,32 @@ define view entity zpip_c_order
       Grossamount,
       
       @Consumption.valueHelpDefinition: [{ 
-                                           entity : { name:    'I_Currency', 
-                                                      element: 'Currency' } 
+                                           entity: { 
+                                                     name:    'I_Currency', 
+                                                     element: 'Currency' 
+                                                   } 
                                         }]
       Amountcurr,
+      
+      @Consumption.valueHelpDefinition: [{ 
+                                           entity : { 
+                                                      name:    'zpip_i_business_partner_c', 
+                                                      element: 'BusinessPartner' 
+                                                    }, 
+                                           
+                                           additionalBinding: [
+                                                               { localElement: 'BusinessPartnerName',  element: 'BusinessPartnerFullName' },
+                                                               { localElement: 'BusinessPartnerGroup', element: 'BusinessPartnerGrouping' }
+                                                              ]
+                                        }]
+      @Search.defaultSearchElement: true
+      @EndUserText.label: 'Business Partner ID'
+      BusinessPartner,     
+      @EndUserText.label: 'Business Partner Name'
+      BusinessPartnerName, 
+      @EndUserText.label: 'Business Partner Group'
+      BusinessPartnerGroup,
+      
       
       CreatedBy,
       CreationTime,

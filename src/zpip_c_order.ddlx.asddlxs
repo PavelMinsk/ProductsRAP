@@ -40,6 +40,12 @@ annotate view zpip_c_order with
                  position:           10
               },
               {
+                 id:                 'BusinessPartnerTab',
+                 type:               #COLLECTION,
+                 label:              'Business Partner',
+                 position:           15
+              },
+              {
                  id:                 'AdminDataCollection',
                  type:               #COLLECTION,
                  label:              'Admin Data',
@@ -57,13 +63,22 @@ annotate view zpip_c_order with
                  position:          10,
                  targetQualifier:   'BasicData'
               },
+              {
+                 id:                'BusinessPartner',
+                 purpose:           #STANDARD ,
+                 parentId:          'BusinessPartnerTab',
+                 type:              #FIELDGROUP_REFERENCE,
+                 label:             'Business Partner',
+                 position:          20,
+                 targetQualifier:   'BusinessPartner'
+              },
               {     
                  id:                'AdminData',     
                  purpose:           #STANDARD ,     
                  parentId:          'AdminDataCollection',     
                  type:              #FIELDGROUP_REFERENCE,     
                  label:             'Admin Data',     
-                 position:          20,     
+                 position:          10,     
                  targetQualifier:   'AdminData'     
               } 
              ]     
@@ -131,6 +146,28 @@ annotate view zpip_c_order with
          fieldGroup:     [ { position: 70,    qualifier: 'BasicData' }]
        } 
   Amountcurr;
+-----------------------------
+//BusinessPartner
+  
+  @UI: { 
+         lineItem:       [ { position: 71,    importance: #HIGH  } ],
+         selectionField: [ { position: 20 } ],
+         fieldGroup:     [ { position: 10,    qualifier: 'BusinessPartner' }]
+       }
+  BusinessPartner;
+
+  @UI: { 
+         lineItem:       [ { position: 72,    importance: #HIGH  } ],
+         fieldGroup:     [ { position: 20,    qualifier: 'BusinessPartner' }]
+       }
+  businesspartnername;
+  
+  @UI: { 
+         lineItem:       [ { position: 73,    importance: #HIGH  } ],
+         fieldGroup:     [ { position: 30,    qualifier: 'BusinessPartner' }]
+       }
+  BusinessPartnerGroup;
+  
 -----------------------------
 //AdminData  
   
