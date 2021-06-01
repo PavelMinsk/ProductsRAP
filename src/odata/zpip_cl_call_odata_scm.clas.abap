@@ -29,11 +29,11 @@ CLASS zpip_cl_call_odata_scm DEFINITION
   PRIVATE SECTION.
 ENDCLASS.
 
-**********************************************************************
-**********************************************************************
 
-CLASS zpip_cl_call_odata_scm IMPLEMENTATION.
-**********************************************************************
+
+CLASS ZPIP_CL_CALL_ODATA_SCM IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
 
     DATA business_data TYPE t_business_data.
@@ -63,7 +63,8 @@ CLASS zpip_cl_call_odata_scm IMPLEMENTATION.
     ENDTRY.
 
   ENDMETHOD.
-**********************************************************************
+
+
   METHOD if_rap_query_provider~select.
 
     DATA business_data TYPE t_business_data.
@@ -100,7 +101,8 @@ CLASS zpip_cl_call_odata_scm IMPLEMENTATION.
     ENDTRY.
 
   ENDMETHOD.
-**********************************************************************
+
+
   METHOD get_business_partners.
 
     DATA: filter_factory     TYPE REF TO /iwbep/if_cp_filter_factory,
@@ -119,9 +121,9 @@ CLASS zpip_cl_call_odata_scm IMPLEMENTATION.
     http_client = cl_web_http_client_manager=>create_by_http_destination( i_destination = http_destination ).
 
     http_client->get_http_request( )->set_authorization_basic(
-                                        i_username = 'POSTMAN_USER'
-                                        i_password = 'bLaPPuUkMMmDJGzgklwHQQqfJLlAPSi[5ekDKgxL'
-                                      ).
+      i_username = 'POSTMAN_USER'
+      i_password = 'bLaPPuUkMMmDJGzgklwHQQqfJLlAPSi[5ekDKgxL'
+    ).
 
     service_consumption_name = to_upper( 'ZPIP_SCM_BUSINESS_PARTNER' ).
 
@@ -174,5 +176,4 @@ CLASS zpip_cl_call_odata_scm IMPLEMENTATION.
     ENDIF.
 
   ENDMETHOD.
-**********************************************************************
 ENDCLASS.

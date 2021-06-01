@@ -18,9 +18,9 @@ define root view entity zpip_i_product
        
       phaseid         as Phaseid,
       case phaseid
-        when 1 then 2
-        when 2 then 3
-        when 3 then 1
+        when 1 then 1
+        when 2 then 2
+        when 3 then 3
         when 4 then 4
       end             as PhaseCriticality,
         
@@ -31,7 +31,8 @@ define root view entity zpip_i_product
 
       @Semantics.amount.currencyCode: 'PriceCurrency'
       price           as Price,
-
+      @Semantics.amount.currencyCode: 'PriceCurrency2'
+      price2          as Price2,
       case
         when price >  300 then 1
         when price <= 300
@@ -44,6 +45,9 @@ define root view entity zpip_i_product
       end             as PriceCriticality,
  
       price_currency  as PriceCurrency,
+      
+      price_currency2 as PriceCurrency2,
+      
       taxrate         as Taxrate,
 
       @Semantics.user.createdBy: true

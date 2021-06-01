@@ -37,7 +37,7 @@ define view zpip_i_ovp_market_order
       grossamount - netamount                                as GrossIncom,
       
       @Semantics.quantity.unitOfMeasure:'Percentage'
-      division((grossamount- netamount) * 100, netamount, 2) as GrossIncomPercentage,
+      division((grossamount - netamount) * 100, netamount, 2) as GrossIncomPercentage,
       
       @Semantics.unitOfMeasure:true
       cast(' % ' as abap.unit(3))                            as Percentage,
@@ -45,10 +45,10 @@ define view zpip_i_ovp_market_order
       30                                                     as TargetGrossIncomPercentage,
       
       @Semantics.quantity.unitOfMeasure:'Percentage'
-      division((grossamount- netamount) * 100, netamount, 2) as GrossIncomPercentageList,
+      division((grossamount - netamount) * 100, netamount, 2) as GrossIncomPercentageList,
       
       @Semantics.quantity.unitOfMeasure:'Percentage'
-      division((grossamount- netamount) * 100, netamount, 2) as GrossIncomPercentageKPI,
+      division((grossamount - netamount) * 100, netamount, 2) as GrossIncomPercentageKPI,
       
       50                                                     as TargetGrossIncomPercentageKPI,
       

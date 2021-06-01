@@ -26,7 +26,9 @@ etag master ChangeTime
     Width         = width;
     SizeUom       = size_uom;
     Price         = price;
+    Price2        = price2;
     PriceCurrency = price_currency;
+    PriceCurrency2 = price_currency2;
     Taxrate       = taxrate;
     CreatedBy     = created_by;
     CreationTime  = creation_time;
@@ -171,6 +173,6 @@ etag master ChangeTime
   determination calculateOrderID  on modify { create; }
   determination calculateAmounts  on save { field DeliveryDate, Netamount, Grossamount, Amountcurr, CalendarYear, Quantity; }
 
-  validation validateDeliveryDate on save { create; field DeliveryDate; }
-
+  validation validateDeliveryDate    on save { create; field DeliveryDate; }
+  validation validateBusinessPartner on save { create; update; field BusinessPartner; }
 }

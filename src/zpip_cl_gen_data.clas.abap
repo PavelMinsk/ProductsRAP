@@ -8,12 +8,12 @@ CLASS zpip_cl_gen_data DEFINITION
   PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
-**********************************************************************
-**********************************************************************
+
+
 
 CLASS ZPIP_CL_GEN_DATA IMPLEMENTATION.
 
-**********************************************************************
+
   METHOD if_oo_adt_classrun~main.
 *---------------------------------------------------------------------
 *                  fill in -zpip_d_prod_grp-

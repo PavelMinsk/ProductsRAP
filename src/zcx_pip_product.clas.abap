@@ -89,37 +89,48 @@ CLASS zcx_pip_product DEFINITION
         attr2 TYPE scx_attrname VALUE 'ENDDATE',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF invalid_delivery_date.
+      END OF invalid_delivery_date,
+
+      BEGIN OF invalid_business_partner,
+        msgid TYPE symsgid VALUE 'ZPIP_MSG_PRODUCT',
+        msgno TYPE symsgno VALUE '010',
+        attr1 TYPE scx_attrname VALUE 'BUSINESSPARTNER',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF invalid_business_partner.
 
     METHODS constructor
       IMPORTING
-        severity   TYPE if_abap_behv_message=>t_severity DEFAULT if_abap_behv_message=>severity-error
-        textid     LIKE if_t100_message=>t100key OPTIONAL
-        previous   TYPE REF TO cx_root  OPTIONAL
-        Pgid       TYPE zpip_pg_id      OPTIONAL
-        Prodid     TYPE zpip_product_id OPTIONAL
-        Phaseid    TYPE zpip_phase_id   OPTIONAL
-        Mrktid     TYPE zpip_market_id  OPTIONAL
-        Startdate  TYPE zpip_start_date OPTIONAL
-        Enddate    TYPE zpip_end_date   OPTIONAL.
+        severity        TYPE if_abap_behv_message=>t_severity DEFAULT if_abap_behv_message=>severity-error
+        textid          LIKE if_t100_message=>t100key OPTIONAL
+        previous        TYPE REF TO cx_root           OPTIONAL
+        Pgid            TYPE zpip_pg_id               OPTIONAL
+        Prodid          TYPE zpip_product_id          OPTIONAL
+        Phaseid         TYPE zpip_phase_id            OPTIONAL
+        Mrktid          TYPE zpip_market_id           OPTIONAL
+        Startdate       TYPE zpip_start_date          OPTIONAL
+        Enddate         TYPE zpip_end_date            OPTIONAL
+        BusinessPartner TYPE zpip_business_partner    OPTIONAL.
 
-    DATA Pgid      TYPE zpip_pg_id      READ-ONLY.
-    DATA Prodid    TYPE zpip_product_id READ-ONLY.
-    DATA Phaseid   TYPE zpip_phase_id   READ-ONLY.
-    DATA Mrktid    TYPE zpip_market_id  READ-ONLY.
-    DATA Startdate TYPE zpip_start_date READ-ONLY.
-    DATA Enddate   TYPE zpip_end_date   READ-ONLY.
-
+    DATA Pgid            TYPE zpip_pg_id            READ-ONLY.
+    DATA Prodid          TYPE zpip_product_id       READ-ONLY.
+    DATA Phaseid         TYPE zpip_phase_id         READ-ONLY.
+    DATA Mrktid          TYPE zpip_market_id        READ-ONLY.
+    DATA Startdate       TYPE zpip_start_date       READ-ONLY.
+    DATA Enddate         TYPE zpip_end_date         READ-ONLY.
+    DATA BusinessPartner TYPE zpip_business_partner READ-ONLY.
 
 *********
 
   PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
-**********************************************************************
-**********************************************************************
 
-CLASS zcx_pip_product IMPLEMENTATION.
+
+
+CLASS ZCX_PIP_PRODUCT IMPLEMENTATION.
+
 
   METHOD constructor ##ADT_SUPPRESS_GENERATION.
     CALL METHOD super->constructor
@@ -140,6 +151,6 @@ CLASS zcx_pip_product IMPLEMENTATION.
     me->Mrktid                          = |{ Mrktid ALPHA = OUT }|.
     me->Startdate                       = Startdate.
     me->Enddate                         = Enddate.
-
+    me->BusinessPartner                 = |{ BusinessPartner ALPHA = OUT }|.
   ENDMETHOD.
 ENDCLASS.

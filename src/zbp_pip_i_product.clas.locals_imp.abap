@@ -117,7 +117,7 @@ CLASS lhc_Product IMPLEMENTATION.
                         %state_area   = 'VALIDATE_PROD_DUPL'
                         %msg          = NEW zcx_pip_product( severity = if_abap_behv_message=>severity-error
                                                              textid   = zcx_pip_product=>prod_dupl
-                                                             Prodid     = product-Prodid )
+                                                             Prodid   = product-Prodid )
                         %element-Prodid = if_abap_behv=>mk-on
         )
           TO reported-product.

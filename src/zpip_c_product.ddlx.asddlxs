@@ -30,18 +30,25 @@ annotate view zpip_c_product with
 ---------------------------------------------------------------------
 //                       Header Facet Annotations                        
               {
-                 id:              'HeaderPrice',
-                 purpose:          #HEADER,
-                 type:             #DATAPOINT_REFERENCE,
-                 targetQualifier: 'Price',
-                 position: 10
-              },
-              {
                  id:              'HeaderProdid',
                  purpose:          #HEADER,
                  type:             #DATAPOINT_REFERENCE,
                  targetQualifier: 'Prodid',
+                 position: 10
+              },
+              {
+                 id:              'HeaderPrice',
+                 purpose:          #HEADER,
+                 type:             #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Price',
                  position: 20
+              },
+              {
+                 id:              'HeaderPrice2',
+                 purpose:          #HEADER,
+                 type:             #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Price2',
+                 position: 21
               },
               {
                  id:              'HeaderTaxrate',
@@ -222,53 +229,95 @@ annotate view zpip_c_product with
   SizeUom;
 
   @UI: { 
-         lineItem:       [ { position: 25,
-                             importance: #HIGH,
-                             criticality: 'PriceCriticality'  } ],
-         identification: [ { position: 50 } ],
-         selectionField: [ { position: 50 } ],
-         fieldGroup: [{ position: 10,     qualifier: 'BasicData', criticality: 'PriceCriticality' }],
-         dataPoint:   { title:   'Price', qualifier: 'Price',     criticality: 'PriceCriticality' }
+         lineItem:       [{ 
+                            position:     25,
+                            importance:   #HIGH,
+                            criticality: 'PriceCriticality' 
+                         }],
+        // identification: [{ position: 50 }],
+        // selectionField: [{ position: 50 }],
+         fieldGroup: [{ 
+                        position:     20,     
+                        qualifier:   'BasicData' , 
+                        criticality: 'PriceCriticality' 
+                     }],
+         dataPoint:  { 
+                       title:       'Price', 
+                       qualifier:   'Price' ,     
+                       criticality: 'PriceCriticality' 
+                     }
          
        }
   Price;
     
   @UI: { 
-     lineItem:       [ { position: 110 } ],
-     identification: [ { position: 110 } ] 
-    }
+         lineItem:       [{ 
+                            position:     26,
+                            importance:   #HIGH 
+                         }],
+        // identification: [{ position: 50 }],
+        // selectionField: [{ position: 50 }],
+         fieldGroup: [{ 
+                        position:     21,     
+                        qualifier:   'BasicData' , 
+                        criticality: 'PriceCriticality' 
+                     }],
+         dataPoint:  { 
+                       title:       'Price2', 
+                       qualifier:   'Price2' 
+                     }
+       }
+  Price2;
+  
+  
+  @UI: { 
+         lineItem:       [ { position: 110 } ],
+         identification: [ { position: 110 } ] 
+       }
   PriceCurrency;
+  
+  @UI: { 
+         lineItem:       [ { position: 111 } ],
+         identification: [ { position: 111 } ] 
+       }
+  PriceCurrency2;
+  
+  @UI: { 
+         lineItem:       [ { position: 60 } ],
+         identification: [ { position: 60 } ],
+         dataPoint:      {
+                           title:     'Tax Rate', 
+                           qualifier: 'Taxrate'
+                         },  
+         fieldGroup:     [{ 
+                            position:   26, 
+                            qualifier: 'BasicData' 
+                         }]
+       }
+  Taxrate;
   
   @UI.hidden: true
   PriceCriticality;
   @UI.hidden: true
   PhaseCriticality;
   
-  @UI: { 
-         lineItem:       [ { position: 60 } ],
-         identification: [ { position: 60 } ],
-         dataPoint:      {title: 'Tax Rate', qualifier: 'Taxrate'}  
-        }
-  @UI.fieldGroup: [{ position: 26, qualifier: 'BasicData' }]
-  Taxrate;
-  
   @UI.hidden: true
   Imageurl;
 
-  @UI.hidden: false
-  @UI.fieldGroup:     [{ position: 10, qualifier: 'AdminData' }]
+  @UI.hidden:     false
+  @UI.fieldGroup: [{ position: 10, qualifier: 'AdminData' }]
   CreatedBy;
 
-  @UI.hidden: false
-  @UI.fieldGroup:     [{ position: 20, qualifier: 'AdminData' }]
+  @UI.hidden:     false
+  @UI.fieldGroup: [{ position: 20, qualifier: 'AdminData' }]
   CreationTime;
 
-  @UI.hidden: false
-  @UI.fieldGroup:     [{ position: 30, qualifier: 'AdminData' }]
+  @UI.hidden:     false
+  @UI.fieldGroup: [{ position: 30, qualifier: 'AdminData' }]
   ChangedBy;
 
-  @UI.hidden: false
-  @UI.fieldGroup:     [{ position: 40, qualifier: 'AdminData' }]
+  @UI.hidden:     false
+  @UI.fieldGroup: [{ position: 40, qualifier: 'AdminData' }]
   ChangeTime;
   
 }

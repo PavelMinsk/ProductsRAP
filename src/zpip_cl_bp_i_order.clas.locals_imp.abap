@@ -1,7 +1,8 @@
 CLASS lhc_Order DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
 
-    METHODS validateDeliveryDate FOR VALIDATE ON SAVE IMPORTING keys FOR Order~validateDeliveryDate.
+    METHODS validateDeliveryDate    FOR VALIDATE ON SAVE IMPORTING keys FOR Order~validateDeliveryDate.
+    METHODS validateBusinessPartner FOR VALIDATE ON SAVE IMPORTING keys FOR Order~validateBusinessPartner.
 
     METHODS calculateOrderID FOR DETERMINE ON MODIFY IMPORTING keys FOR Order~calculateOrderID.
     METHODS calculateAmounts FOR DETERMINE ON SAVE IMPORTING keys FOR Order~calculateAmounts.
@@ -158,6 +159,158 @@ CLASS lhc_Order IMPLEMENTATION.
         ENDIF.
       ENDLOOP.
     ENDLOOP.
+  ENDMETHOD.
+**********************************************************************
+  METHOD validateBusinessPartner.
+
+    DATA: ranges_table       TYPE if_rap_query_filter=>tt_range_option,
+          filter_conditions  TYPE if_rap_query_filter=>tt_name_range_pairs,
+          business_data      TYPE TABLE OF zzpip_a_businesspartner.
+
+    READ ENTITIES OF zpip_i_product IN LOCAL MODE
+      ENTITY Order
+        FIELDS ( BusinessPartner ) WITH CORRESPONDING #( keys )
+      RESULT DATA(pickedBusinessPartner).
+
+
+    LOOP AT pickedBusinessPartner INTO DATA(ls_pickedBusinessPartner).
+      APPEND VALUE #(  %tky        = ls_pickedBusinessPartner-%tky
+                       %state_area = 'VALIDATE_BUSINESS_PARTNER' )
+        TO reported-order.
+    ENDLOOP.
+
+* VAR 1. -----------------------------------------------------------
+
+    DATA: lt_BusinessPartner TYPE SORTED TABLE OF zpip_d_mrkt_ordr WITH UNIQUE KEY mrkt_uuid.
+
+    lt_BusinessPartner = CORRESPONDING #( pickedBusinessPartner DISCARDING DUPLICATES MAPPING busspartner = BusinessPartner EXCEPT * ).
+*---
+    IF lt_BusinessPartner IS NOT INITIAL.
+      ranges_table = VALUE #(
+        FOR ls_BusinessPartner IN lt_BusinessPartner (
+          sign = 'I' option = 'EQ' low = ls_BusinessPartner-busspartner
+        )
+      ).
+      filter_conditions = VALUE #(
+        ( name = 'BUSINESSPARTNER'  range = ranges_table )
+      ).
+
+*-----
+      TRY.
+         NEW zpip_cl_call_odata_scm( )->get_business_partners(
+           EXPORTING
+             filter_cond        = filter_conditions
+             is_data_requested  = abap_true
+             is_count_requested = abap_false
+           IMPORTING
+             business_data  = business_data
+         ).
+
+      CATCH /iwbep/cx_cp_remote
+            /iwbep/cx_gateway
+            cx_web_http_client_error
+            cx_http_dest_provider_error INTO DATA(exception).
+
+        DATA(exception_message) = cl_message_helper=>get_latest_t100_exception( exception )->if_message~get_text( ) .
+
+      LOOP AT pickedBusinessPartner INTO ls_pickedBusinessPartner  .
+        APPEND VALUE #( %tky = ls_pickedBusinessPartner-%tky ) TO failed-order.
+        APPEND VALUE #(
+                        %tky                     = ls_pickedBusinessPartner-%tky
+                        %state_area              = 'VALIDATE_BUSINESS_PARTNER'
+                        %msg                     = new_message_with_text( severity = if_abap_behv_message=>severity-error text = exception_message )
+                        %element-BusinessPartner = if_abap_behv=>mk-on
+                      )
+                        TO reported-order.
+        ENDLOOP.
+        RETURN.
+      ENDTRY.
+*-----
+    ENDIF.
+*---
+
+    LOOP AT pickedBusinessPartner INTO ls_pickedBusinessPartner.
+      IF ls_pickedBusinessPartner-BusinessPartner IS INITIAL OR
+         NOT line_exists( business_data[ BusinessPartner = ls_pickedBusinessPartner-BusinessPartner ] ).
+        APPEND VALUE #( %tky = ls_pickedBusinessPartner-%tky ) TO failed-order.
+        APPEND VALUE #(
+                        %tky                     = ls_pickedBusinessPartner-%tky
+                        %state_area              = 'VALIDATE_BUSINESS_PARTNER'
+                        %msg                     = NEW zcx_pip_product(
+                                                                        severity        = if_abap_behv_message=>severity-error
+                                                                        textid          = zcx_pip_product=>invalid_business_partner
+                                                                        BusinessPartner = ls_pickedBusinessPartner-BusinessPartner
+                                                                      )
+                        %path                    = VALUE #( product-%is_draft = ls_pickedBusinessPartner-%is_draft
+                                                            product-produuid  = ls_pickedBusinessPartner-ProdUuid )
+                        %element-BusinessPartner = if_abap_behv=>mk-on
+                      )
+                        TO reported-order.
+      ENDIF.
+    ENDLOOP.
+
+* VAR 2. -----------------------------------------------------------
+
+**---
+*    LOOP AT pickedBusinessPartner ASSIGNING FIELD-SYMBOL(<fs_pickedBusinessPartner>).
+**-----
+*      IF <fs_pickedBusinessPartner>-BusinessPartner IS NOT INITIAL.
+*        ranges_table      = VALUE #( ( sign = 'I' option = 'EQ' low = <fs_pickedBusinessPartner>-BusinessPartner ) ).
+*        filter_conditions = VALUE #( ( name = 'BUSINESSPARTNER'  range = ranges_table ) ).
+**-------
+*        TRY.
+*          NEW zpip_cl_call_odata_scm( )->get_business_partners(
+*            EXPORTING
+*              filter_cond    = filter_conditions
+*              is_data_requested  = abap_true
+*              is_count_requested = abap_false
+*            IMPORTING
+*              business_data  = business_data
+*          ).
+*
+*        CATCH /iwbep/cx_cp_remote
+*              /iwbep/cx_gateway
+*              cx_web_http_client_error
+*              cx_http_dest_provider_error INTO DATA(exception).
+*
+*          DATA(exception_message) = cl_message_helper=>get_latest_t100_exception( exception )->if_message~get_text( ) .
+*
+*          LOOP AT pickedBusinessPartner ASSIGNING <fs_pickedBusinessPartner>  .
+*            APPEND VALUE #( %tky = <fs_pickedBusinessPartner>-%tky ) TO failed-order.
+*            APPEND VALUE #(
+*              %tky                     = <fs_pickedBusinessPartner>-%tky
+*              %state_area              = 'VALIDATE_BUSINESS_PARTNER'
+*              %msg                     =  new_message_with_text( severity = if_abap_behv_message=>severity-error text = exception_message )
+*              %element-BusinessPartner = if_abap_behv=>mk-on
+*            )
+*              TO reported-order.
+*          ENDLOOP.
+*
+*          RETURN.
+*
+*        ENDTRY.
+**-------
+*        LOOP AT pickedBusinessPartner INTO ls_pickedBusinessPartner  .
+*          IF ls_pickedBusinessPartner-BusinessPartner IS INITIAL OR
+*             NOT line_exists( business_data[ BusinessPartner = ls_pickedBusinessPartner-BusinessPartner ] ).
+*            APPEND VALUE #( %tky = ls_pickedBusinessPartner-%tky ) TO failed-order.
+*            APPEND VALUE #(
+*              %tky        = ls_pickedBusinessPartner-%tky
+*              %state_area = 'VALIDATE_BUSINESS_PARTNER'
+*              %msg        = NEW zcx_pip_product( severity        = if_abap_behv_message=>severity-error
+*                                                 textid          = zcx_pip_product=>invalid_business_partner
+*                                                 BusinessPartner = ls_pickedBusinessPartner-BusinessPartner )
+*              %element-BusinessPartner = if_abap_behv=>mk-on
+*            )
+*              TO reported-order.
+*          ENDIF.
+*        ENDLOOP.
+**-------
+*      ENDIF.
+**-----
+*    ENDLOOP.
+**---
+
   ENDMETHOD.
 **********************************************************************
 ENDCLASS.
