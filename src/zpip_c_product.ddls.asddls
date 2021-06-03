@@ -53,9 +53,7 @@ define root view entity zpip_c_product
       
       @Semantics.amount.currencyCode: 'PriceCurrency'
       Price,
-      @Semantics.amount.currencyCode: 'PriceCurrency2'
-      Price2,
-      
+
       PriceCriticality,
       
       PhaseCriticality,
@@ -65,14 +63,6 @@ define root view entity zpip_c_product
                                                       element: 'Currency' } 
                                         }]
       PriceCurrency,
-      
-      @Consumption.valueHelpDefinition: [{ 
-                                           entity : { name:    'I_Currency', 
-                                                      element: 'Currency' } 
-                                        }]
-      PriceCurrency2,
-      
-      
       
       Taxrate,
       

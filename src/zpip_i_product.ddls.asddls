@@ -31,8 +31,6 @@ define root view entity zpip_i_product
 
       @Semantics.amount.currencyCode: 'PriceCurrency'
       price           as Price,
-      @Semantics.amount.currencyCode: 'PriceCurrency2'
-      price2          as Price2,
       case
         when price >  300 then 1
         when price <= 300
@@ -45,8 +43,6 @@ define root view entity zpip_i_product
       end             as PriceCriticality,
  
       price_currency  as PriceCurrency,
-      
-      price_currency2 as PriceCurrency2,
       
       taxrate         as Taxrate,
 

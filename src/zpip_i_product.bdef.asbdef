@@ -26,9 +26,7 @@ etag master ChangeTime
     Width         = width;
     SizeUom       = size_uom;
     Price         = price;
-    Price2        = price2;
     PriceCurrency = price_currency;
-    PriceCurrency2 = price_currency2;
     Taxrate       = taxrate;
     CreatedBy     = created_by;
     CreationTime  = creation_time;

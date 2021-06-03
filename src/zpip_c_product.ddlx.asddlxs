@@ -44,13 +44,6 @@ annotate view zpip_c_product with
                  position: 20
               },
               {
-                 id:              'HeaderPrice2',
-                 purpose:          #HEADER,
-                 type:             #DATAPOINT_REFERENCE,
-                 targetQualifier: 'Price2',
-                 position: 21
-              },
-              {
                  id:              'HeaderTaxrate',
                  purpose:          #HEADER,
                  type:             #DATAPOINT_REFERENCE,
@@ -249,26 +242,6 @@ annotate view zpip_c_product with
          
        }
   Price;
-    
-  @UI: { 
-         lineItem:       [{ 
-                            position:     26,
-                            importance:   #HIGH 
-                         }],
-        // identification: [{ position: 50 }],
-        // selectionField: [{ position: 50 }],
-         fieldGroup: [{ 
-                        position:     21,     
-                        qualifier:   'BasicData' , 
-                        criticality: 'PriceCriticality' 
-                     }],
-         dataPoint:  { 
-                       title:       'Price2', 
-                       qualifier:   'Price2' 
-                     }
-       }
-  Price2;
-  
   
   @UI: { 
          lineItem:       [ { position: 110 } ],
